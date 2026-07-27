@@ -1,98 +1,131 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# FX Analytics API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Fastify](https://img.shields.io/badge/Fastify-000000?style=for-the-badge&logo=fastify&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+A **FX Analytics API** é um serviço de backend construído com NestJS que fornece análises em tempo real de cotações de moedas. A API consome dados de uma fonte externa, realiza cálculos de volatilidade e risco, e os expõe através de uma API REST. O projeto também inclui um dashboard simples para visualização dos dados.
 
-## Description
+## ✨ Funcionalidades
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Análise em Tempo Real:** Busca cotações atuais para os pares USD-BRL, EUR-BRL e BTC-BRL.
+- **Dados Enriquecidos:** Calcula a **volatilidade** diária e o **nível de risco** (Baixo, Médio, Alto) com base na variação percentual.
+- **API RESTful:** Expõe endpoints claros e documentados para consumo dos dados.
+- **Dashboard Interativo:** Uma interface de frontend simples, construída com HTML, Tailwind CSS e Chart.js, para visualizar as análises.
 
-## Project setup
+---
 
-```bash
-$ npm install
-```
+## 🏛️ Arquitetura
 
-## Compile and run the project
+O projeto é dividido em duas partes principais: um backend robusto e um frontend leve.
 
-```bash
-# development
-$ npm run start
+### Backend
 
-# watch mode
-$ npm run start:dev
+Construído com **NestJS** e utilizando o **Fastify** como motor HTTP para alta performance, o backend é responsável por toda a lógica de negócio.
 
-# production mode
-$ npm run start:prod
-```
+1.  **Controller (`CurrenciesController`):** Define as rotas da API e recebe as requisições HTTP.
+2.  **Service (`CurrenciesService`):** Contém a lógica principal:
+    -   Busca os dados brutos da API externa `https://economia.awesomeapi.com.br`.
+    -   Formata e enriquece os dados, calculando volatilidade e risco.
+    -   Trata erros de comunicação com a API externa.
+3.  **Módulo (`CurrenciesModule`):** Organiza e encapsula o controller e o service, importando o `HttpModule` para realizar as chamadas externas.
 
-## Run tests
+### Frontend
 
-```bash
-# unit tests
-$ npm run test
+Uma página estática (`public/index.html`) que atua como um cliente da API.
 
-# e2e tests
-$ npm run test:e2e
+1.  **Estrutura:** HTML semântico.
+2.  **Estilização:** **Tailwind CSS** para uma interface moderna e responsiva.
+3.  **Visualização de Dados:** **Chart.js** para renderizar um gráfico de barras com a variação percentual das moedas.
+4.  **Lógica:** JavaScript puro (`async/await`) para consumir a API e renderizar os dados dinamicamente no DOM.
 
-# test coverage
-$ npm run test:cov
-```
+---
 
-## Deployment
+## 🚀 Como Executar o Projeto
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Siga os passos abaixo para executar o projeto em seu ambiente local.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Pré-requisitos
+
+- Node.js (versão 16 ou superior)
+- NPM ou Yarn
+
+### 1. Clonar o Repositório
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+git clone https://github.com/seu-usuario/fx-analytics-api.git
+cd fx-analytics-api
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 2. Instalar as Dependências
 
-## Resources
+```bash
+npm install
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### 3. Executar em Modo de Desenvolvimento
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Este comando iniciará o servidor NestJS com hot-reloading.
 
-## Support
+```bash
+npm run start:dev
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### 4. Acessar a Aplicação
 
-## Stay in touch
+- **API:** O servidor estará rodando em `http://localhost:3000`.
+- **Dashboard:** Abra seu navegador e acesse `http://localhost:3000`. A página `index.html` será servida automaticamente.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
-## License
+## ↔️ Endpoints da API
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Obter Análise de Todas as Moedas
+
+**`GET /currencies/analytics`**
+
+Retorna um objeto com a análise completa de todas as moedas monitoradas.
+
+**Exemplo de Resposta:**
+```json
+{
+  "timestamp": "2023-10-27T19:30:00.123Z",
+  "totalCurrenciesAnalyzed": 3,
+  "data": [
+    {
+      "code": "USD",
+      "name": "Dólar Americano",
+      "currentPrice": 5.01,
+      "highPrice": 5.05,
+      "lowPrice": 4.98,
+      "variation": 0.25,
+      "volatility": 0.0700,
+      "riskLevel": "BAIXO"
+    }
+    // ...outras moedas
+  ]
+}
+```
+
+### Obter Análise de uma Moeda Específica
+
+**`GET /currencies/analytics/:code`**
+
+Retorna a análise de uma moeda específica.
+
+**Exemplo de Requisição:** `http://localhost:3000/currencies/analytics/BTC`
+
+**Exemplo de Resposta:**
+```json
+{
+  "code": "BTC",
+  "name": "Bitcoin",
+  "currentPrice": 180000.00,
+  "highPrice": 182000.00,
+  "lowPrice": 179500.00,
+  "variation": 1.5,
+  "volatility": 2500.0000,
+  "riskLevel": "MEDIO"
+}
+```

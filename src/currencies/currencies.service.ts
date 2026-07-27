@@ -18,7 +18,6 @@ export class CurrenciesService {
 
   constructor(private readonly httpService: HttpService) {}
 
-  // Mantemos o método fetchRawRates intacto com seu excelente tratamento de erro
   async fetchRawRates(): Promise<AwesomeApiGlobalResponse> {
     try {
       const response = await firstValueFrom(
@@ -44,8 +43,6 @@ export class CurrenciesService {
     }
   }
 
-  // --- REGRAS DE NEGÓCIO OTIMIZADAS ---
-
   private calculateRiskLevel(variation: number): 'BAIXO' | 'MEDIO' | 'ALTO' {
     if (isNaN(variation)) return 'BAIXO'; // Fallback de segurança
 
@@ -56,7 +53,6 @@ export class CurrenciesService {
   }
 
   private formatCurrencyData(raw: CurrencyRawResponse): CurrencyDetailDto {
-    // Conversão segura prevenindo falhas caso a API envie dados nulos/ausentes
     const bid = parseFloat(raw?.bid) || 0;
     const high = parseFloat(raw?.high) || 0;
     const low = parseFloat(raw?.low) || 0;
@@ -77,8 +73,6 @@ export class CurrenciesService {
   async getAnalytics(): Promise<AnalyticsResponseDto> {
     const rawData = await this.fetchRawRates();
 
-    // Mapeamento dinâmico: Não importa se a API retorna 3 ou 50 moedas,
-    // o código processa automaticamente todas as chaves do objeto.
     const formattedData = Object.values(rawData).map((currencyItem) =>
       this.formatCurrencyData(currencyItem),
     );
@@ -88,5 +82,25 @@ export class CurrenciesService {
       totalCurrenciesAnalyzed: formattedData.length,
       data: formattedData,
     };
+  }
+
+  // Busca e filtra a análise de apenas uma moeda específica
+  async getAnalyticsByCode(code: string): Promise<CurrencyDetailDto> {
+    const analytics = await this.getAnalytics();
+
+    // Converte o parâmetro para maiúsculo para garantir a igualdade (ex: 'usd' vira 'USD')
+    const currency = analytics.data.find(
+      (item) => item.code === code.toUpperCase(),
+    );
+
+    // Se a moeda não existir no array, devolve um erro 404 (Not Found)
+    if (!currency) {
+      throw new HttpException(
+        `Moeda com o código '${code}' não foi encontrada.`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return currency;
   }
 }
