@@ -75,7 +75,7 @@ npm run start:dev
 ### 4. Acessar a Aplicação
 
 - **API:** O servidor estará rodando em `http://localhost:3000`.
-- **Dashboard:** Abra seu navegador e acesse `http://localhost:3000`. A página `index.html` será servida automaticamente.
+- **Dashboard:** Abra seu navegador e acesse `http://localhost:3000/dashboard/`. A página `index.html` será servida automaticamente.
 
 ---
 
