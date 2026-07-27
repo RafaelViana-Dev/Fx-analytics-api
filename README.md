@@ -54,7 +54,7 @@ Siga os passos abaixo para executar o projeto em seu ambiente local.
 ### 1. Clonar o Repositório
 
 ```bash
-git clone https://github.com/seu-usuario/fx-analytics-api.git
+git clone https://github.com/RafaelViana-Dev/fx-analytics-api.git
 cd fx-analytics-api
 ```
 
@@ -75,7 +75,7 @@ npm run start:dev
 ### 4. Acessar a Aplicação
 
 - **API:** O servidor estará rodando em `http://localhost:3000`.
-- **Dashboard:** Abra seu navegador e acesse `http://localhost:3000`. A página `index.html` será servida automaticamente.
+- **Dashboard:** Abra seu navegador e acesse `http://localhost:3000/dashboard/`. A página `index.html` será servida automaticamente.
 
 ---
 
