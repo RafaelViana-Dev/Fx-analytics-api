@@ -54,7 +54,7 @@ Siga os passos abaixo para executar o projeto em seu ambiente local.
 ### 1. Clonar o Repositório
 
 ```bash
-git clone https://github.com/seu-usuario/fx-analytics-api.git
+git clone https://github.com/RafaelViana-Dev/fx-analytics-api.git
 cd fx-analytics-api
 ```
 
